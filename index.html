@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>K7 Academy | Martial Arts & Fitness</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                fontFamily: {
+                    sans: ['Inter', 'sans-serif'],
+                },
+                extend: {
+                    colors: {
+                        neutral: {
+                            850: '#1f1f1f',
+                            950: '#0a0a0a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom scrollbar for webkit */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #dc2626;
+        }
+    </style>
+</head>
+
+<body
+    class="font-sans text-gray-200 bg-neutral-950 min-h-screen selection:bg-red-600 selection:text-white overflow-x-hidden">
+
+    <!-- Announcement Bar -->
+    <div id="announcement-bar"
+        class="hidden text-white text-center py-2 px-4 font-bold text-sm tracking-wide relative z-[60]">
+        <!-- Injected by JS -->
+    </div>
+
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 py-5 bg-transparent">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <a href="#home" class="text-3xl font-black italic tracking-tighter text-white z-50 relative">
+                K<span class="text-red-600">7</span>
+            </a>
+
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex space-x-8 items-center">
+                <a href="#home"
+                    class="nav-link text-sm font-bold uppercase tracking-wider hover:text-red-500 transition-colors">Home</a>
+                <a href="#programs"
+                    class="nav-link text-sm font-bold uppercase tracking-wider hover:text-red-500 transition-colors">Programs</a>
+                <a href="#schedule"
+                    class="nav-link text-sm font-bold uppercase tracking-wider hover:text-red-500 transition-colors">Schedule</a>
+                <a href="#pricing"
+                    class="nav-link text-sm font-bold uppercase tracking-wider hover:text-red-500 transition-colors">Pricing</a>
+                <a href="#contact"
+                    class="nav-link text-sm font-bold uppercase tracking-wider hover:text-red-500 transition-colors">Contact</a>
+
+                <a href="#contact"
+                    class="bg-red-600 hover:bg-red-700 text-white px-6 py-2 font-bold uppercase tracking-wider text-sm transform skew-x-[-12deg] transition-all group">
+                    <span class="block skew-x-[12deg]">Book Trial</span>
+                </a>
+            </div>
+
+            <!-- Mobile Button -->
+            <button id="mobile-menu-btn" class="md:hidden text-white z-50 relative focus:outline-none">
+                <i data-lucide="menu" id="menu-icon"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu Overlay -->
+        <div id="mobile-menu"
+            class="fixed inset-0 bg-neutral-950/95 backdrop-blur-xl z-40 transform translate-x-full transition-transform duration-300 flex flex-col items-center justify-center space-y-8 md:hidden">
+            <a href="#home"
+                class="mobile-link text-2xl font-bold uppercase tracking-wider hover:text-red-500 text-white">Home</a>
+            <a href="#programs"
+                class="mobile-link text-2xl font-bold uppercase tracking-wider hover:text-red-500 text-white">Programs</a>
+            <a href="#schedule"
+                class="mobile-link text-2xl font-bold uppercase tracking-wider hover:text-red-500 text-white">Schedule</a>
+            <a href="#pricing"
+                class="mobile-link text-2xl font-bold uppercase tracking-wider hover:text-red-500 text-white">Pricing</a>
+            <a href="#contact"
+                class="mobile-link text-2xl font-bold uppercase tracking-wider hover:text-red-500 text-white">Contact</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative h-screen flex items-center justify-center overflow-hidden">
+        <!-- Background Image with Overlay -->
+        <div class="absolute inset-0 z-0">
+            <img id="hero-bg" src="" alt="Kickboxer training"
+                class="w-full h-full object-cover transition-opacity duration-700 opacity-0"
+                onload="this.classList.remove('opacity-0')" />
+            <div class="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/70 to-neutral-900/40"></div>
+            <div class="absolute inset-0 bg-red-600/10 mix-blend-overlay"></div>
+        </div>
+
+        <div id="hero-content"
+            class="container mx-auto px-6 relative z-10 text-center md:text-left mt-16 opacity-0 transition-opacity duration-1000">
+            <!-- Injected by JS -->
+        </div>
+    </section>
+
+    <!-- Programs / Classes -->
+    <section id="programs" class="py-20 bg-neutral-950">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-black text-white italic tracking-tight">TRAINING <span
+                        class="text-red-600">PROGRAMS</span></h2>
+                <div class="w-20 h-1 bg-red-600 mx-auto mt-4"></div>
+            </div>
+
+            <div id="programs-grid" class="grid md:grid-cols-2 gap-8">
+                <!-- Injected by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Class Timings -->
+    <section id="schedule" class="py-20 bg-neutral-900">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl font-black text-white italic tracking-tight text-center mb-10">
+                <span id="schedule-title-prefix">WEEKLY</span> <span class="text-red-600">SCHEDULE</span>
+            </h2>
+
+            <!-- Day Tabs Container -->
+            <div id="day-tabs" class="flex flex-wrap justify-center gap-2 mb-8">
+                <!-- Tabs will be injected by JS -->
+            </div>
+
+            <!-- Schedule Table -->
+            <div class="bg-neutral-950 border border-neutral-800 p-4 md:p-8 max-w-4xl mx-auto min-h-[300px]">
+                <div id="schedule-content" class="grid gap-4">
+                    <!-- Schedule items will be injected by JS -->
+                </div>
+                <p id="no-classes-msg" class="text-center text-gray-500 italic hidden mt-10">No classes scheduled for
+                    this day.</p>
+            </div>
+            <div class="text-center mt-8">
+                <p class="text-gray-400 text-sm">
+                    <span class="text-red-500 font-bold">*</span> Personal & Duo Training timings are flexible and
+                    booked separately.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing / Packages -->
+    <section id="pricing" class="py-20 bg-neutral-950">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-black text-white italic tracking-tight">FEATURED <span
+                        class="text-red-600">PACKAGES</span></h2>
+                <div class="w-20 h-1 bg-red-600 mx-auto mt-4"></div>
+            </div>
+
+            <div id="packages-grid" class="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+                <!-- Injected by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Location & Contact -->
+    <section id="contact" class="relative bg-neutral-900">
+        <div class="grid md:grid-cols-2 h-full">
+
+            <!-- Map Side -->
+            <div class="h-96 md:h-auto min-h-[500px] relative w-full">
+                <iframe id="contact-map" width="100%" height="100%"
+                    class="absolute inset-0 grayscale contrast-125 opacity-80 hover:grayscale-0 transition-all duration-500"
+                    frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="" title="Location"></iframe>
+                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 pointer-events-none">
+                    <div class="bg-red-600 text-white p-2 font-bold shadow-lg animate-bounce rounded-full">
+                        <i data-lucide="map-pin" class="w-6 h-6"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Form Side -->
+            <div class="p-10 md:p-20 flex flex-col justify-center">
+                <h2 class="text-4xl font-black text-white italic tracking-tight mb-8">GET IN <span
+                        class="text-red-600">TOUCH</span></h2>
+
+                <div class="space-y-6 mb-10" id="contact-info">
+                    <!-- Injected by JS -->
+                </div>
+
+                <form class="space-y-4"
+                    onsubmit="event.preventDefault(); alert('Message sent! We will contact you shortly.');">
+                    <div class="grid grid-cols-2 gap-4">
+                        <input type="text" placeholder="NAME"
+                            class="bg-neutral-950 border border-neutral-800 p-3 text-white focus:border-red-600 focus:outline-none w-full transition-colors" />
+                        <input type="text" placeholder="PHONE"
+                            class="bg-neutral-950 border border-neutral-800 p-3 text-white focus:border-red-600 focus:outline-none w-full transition-colors" />
+                    </div>
+                    <textarea rows="4" placeholder="MESSAGE (e.g. Booking a trial)"
+                        class="bg-neutral-950 border border-neutral-800 p-3 text-white focus:border-red-600 focus:outline-none w-full transition-colors"></textarea>
+                    <button
+                        class="bg-white hover:bg-red-600 hover:text-white text-black font-bold py-3 px-8 uppercase tracking-widest transition-colors w-full md:w-auto">
+                        Send Message
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black py-12 border-t border-neutral-900">
+        <div class="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center">
+            <div class="mb-6 md:mb-0">
+                <a href="#home" class="text-3xl font-black italic tracking-tighter text-white">
+                    K<span class="text-red-600">7</span> ACADEMY
+                </a>
+                <p class="text-gray-500 text-sm mt-2">&copy; <span id="year">2024</span> <span id="footer-title">K7
+                        Academy</span>. All Rights Reserved.</p>
+                <p id="footer-address" class="text-gray-600 text-xs mt-1"></p>
+            </div>
+
+            <div class="flex space-x-6" id="footer-socials">
+                <!-- Injected by JS -->
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // DOM Elements
+        const navbar = document.getElementById('navbar');
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIcon = document.getElementById('menu-icon');
+        const dayTabsContainer = document.getElementById('day-tabs');
+        const scheduleContent = document.getElementById('schedule-content');
+        const noClassesMsg = document.getElementById('no-classes-msg');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+        const announcementBar = document.getElementById('announcement-bar');
+
+        // State
+        let db = {
+            schedule: {},
+            settings: {}
+        };
+        let activeDay = 'Monday';
+        let isMobileMenuOpen = false;
+
+        // --- Fetch Data ---
+        async function init() {
+            try {
+                const response = await fetch('db.json');
+                db = await response.json();
+
+                renderAnnouncement();
+                renderHero();
+                renderPrograms();
+                renderSchedule();
+                renderPackages();
+                renderContact();
+                renderFooter();
+
+                // Set active day to today
+                const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+                const today = days[new Date().getDay()];
+                if (db.schedule.normal[today] || (db.schedule.ramadan && db.schedule.ramadan[today])) {
+                    activeDay = today;
+                } else {
+                    activeDay = 'Monday';
+                }
+
+                renderScheduleTabs(); // Re-render tabs with checks
+                renderScheduleContent();
+
+            } catch (error) {
+                console.error('Failed to load content:', error);
+            }
+        }
+
+        // --- Rendering Functions ---
+
+        function renderAnnouncement() {
+            if (db.announcement && db.announcement.isActive) {
+                announcementBar.classList.remove('hidden');
+                announcementBar.style.backgroundColor = db.announcement.backgroundColor || '#dc2626';
+                if (db.announcement.link) {
+                    announcementBar.innerHTML = `<a href="${db.announcement.link}" class="hover:underline">${db.announcement.text}</a>`;
+                } else {
+                    announcementBar.textContent = db.announcement.text;
+                }
+                // Adjust navbar top position if fixed
+                // (Optional: adding margin-top to navbar if needed, but current CSS handles overlay well)
+            }
+        }
+
+        function renderHero() {
+            const h = db.hero;
+            document.title = db.settings.siteTitle || document.title;
+            document.getElementById('hero-bg').src = h.backgroundImage;
+
+            document.getElementById('hero-content').innerHTML = `
+                <div class="inline-block px-4 py-1 border border-red-600 text-red-500 font-bold uppercase text-xs tracking-[0.2em] mb-4">
+                    ${h.established}
+                </div>
+                <h1 class="text-5xl md:text-7xl lg:text-8xl font-black text-white italic tracking-tighter leading-tight mb-6">
+                    ${h.headingLine1} <br/>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-red-400">${h.headingLine2}</span>
+                </h1>
+                <p class="text-gray-300 text-lg md:text-xl max-w-xl mb-10 leading-relaxed mx-auto md:mx-0">
+                    ${h.subtext}
+                </p>
+                <div class="flex flex-col md:flex-row gap-4 justify-center md:justify-start">
+                    <a href="${h.cta1.link}" class="group bg-red-600 hover:bg-red-700 text-white px-8 py-4 font-bold uppercase tracking-wider text-sm flex items-center justify-center gap-2 transition-all">
+                        ${h.cta1.text} <i data-lucide="chevron-right" class="group-hover:translate-x-1 transition-transform w-5 h-5"></i>
+                    </a>
+                    <a href="${h.cta2.link}" class="border border-white hover:border-red-600 hover:text-red-500 text-white px-8 py-4 font-bold uppercase tracking-wider text-sm flex items-center justify-center transition-all">
+                        ${h.cta2.text}
+                    </a>
+                </div>
+            `;
+            document.getElementById('hero-content').classList.remove('opacity-0');
+            lucide.createIcons();
+        }
+
+        function renderPrograms() {
+            const container = document.getElementById('programs-grid');
+            container.innerHTML = db.programs.map(p => `
+                <div class="group relative overflow-hidden border border-neutral-800 bg-neutral-900 transition-all hover:border-red-900/50">
+                    ${p.badge ? `<div class="absolute top-0 right-0 bg-red-600 text-white text-xs font-bold px-3 py-1 z-20">${p.badge}</div>` : ''}
+                    <div class="h-64 overflow-hidden">
+                        <img src="${p.image}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt="${p.title}">
+                    </div>
+                    <div class="p-8">
+                        <h3 class="text-2xl font-bold text-white uppercase italic mb-2">${p.title}</h3>
+                        ${p.subtitle ? `<p class="text-red-500 font-bold text-sm mb-4">${p.subtitle}</p>` : ''}
+                        
+                        ${p.description ? `<p class="text-gray-400 text-sm mb-4">${p.description}</p>` : ''}
+                        
+                        ${p.scheduleInfo ? `<div class="grid grid-cols-2 gap-4 mb-6">
+                            ${p.scheduleInfo.map(s => `
+                                <div><h4 class="text-white font-bold text-sm">${s.title}</h4><p class="text-xs text-gray-500">${s.days}</p><p class="text-xs text-gray-500">${s.time}</p></div>
+                            `).join('')}
+                        </div>` : ''}
+
+                        <ul class="space-y-2 mb-6 text-gray-400 text-sm">
+                            ${p.features.map(f => `<li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-red-600"></i> ${f}</li>`).join('')}
+                        </ul>
+                        
+                        ${p.note ? `<div class="text-xs text-gray-500 italic mb-4">${p.note}</div>` : ''}
+                        
+                        <a href="${p.ctaLink}" class="inline-block ${p.badge === 'BEST PACKAGE' ? 'bg-white text-black hover:bg-red-600 hover:text-white' : 'border border-gray-600 text-white hover:border-red-600 hover:text-red-500'} px-6 py-2 font-bold uppercase text-xs tracking-wider transition-colors">
+                            ${p.ctaText}
+                        </a>
+                    </div>
+                </div>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        function renderPackages() {
+            const container = document.getElementById('packages-grid');
+            container.innerHTML = db.packages.map(p => `
+                <div class="bg-neutral-900 p-8 border ${p.highlight ? 'border-2 border-red-600 relative transform md:-translate-y-4' : 'border-neutral-800 hover:border-red-600 transition-colors'} flex flex-col">
+                    ${p.badge ? `<div class="absolute top-0 right-0 bg-red-600 text-white text-xs font-bold px-3 py-1">${p.badge}</div>` : ''}
+                    <div class="mb-4">
+                        <h3 class="text-xl font-bold text-white uppercase italic">${p.title}</h3>
+                        <p class="text-sm text-gray-500 mt-2">${p.subtitle}</p>
+                    </div>
+                    <ul class="space-y-3 mb-8 flex-grow">
+                        ${p.features.map(f => `
+                            <li class="flex items-center gap-2 text-sm text-gray-300"><div class="w-1.5 h-1.5 bg-red-600 rounded-full"></div> ${f}</li>
+                        `).join('')}
+                    </ul>
+                    <a href="${p.ctaLink}" class="w-full block text-center ${p.highlight ? 'bg-red-600 hover:bg-red-700' : 'bg-neutral-800 hover:bg-white hover:text-black'} text-white py-3 font-bold uppercase text-xs tracking-wider transition-colors">
+                        ${p.ctaText}
+                    </a>
+                </div>
+            `).join('');
+        }
+
+        function renderContact() {
+            const c = db.contact;
+            document.getElementById('contact-map').src = c.mapUrl;
+            document.getElementById('contact-info').innerHTML = `
+                <div class="flex items-start gap-4">
+                    <i data-lucide="map-pin" class="text-red-600 mt-1 w-6 h-6"></i>
+                    <div>
+                        <h4 class="font-bold text-white">Location</h4>
+                        <p class="text-gray-400">${c.address}</p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-4">
+                    <i data-lucide="phone" class="text-red-600 mt-1 w-6 h-6"></i>
+                    <div>
+                        <h4 class="font-bold text-white">Call / WhatsApp</h4>
+                        <p class="text-gray-400">${c.phone}</p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-4">
+                    <i data-lucide="message-square" class="text-red-600 mt-1 w-6 h-6"></i>
+                    <div>
+                        <h4 class="font-bold text-white">Trial Session</h4>
+                        <p class="text-gray-400">Book a trial session today — give yourself a strong start.</p>
+                    </div>
+                </div>
+            `;
+            lucide.createIcons();
+        }
+
+        function renderFooter() {
+            document.getElementById('year').textContent = new Date().getFullYear();
+            document.getElementById('footer-title').textContent = db.settings.siteTitle.split('|')[0].trim();
+            document.getElementById('footer-address').textContent = db.contact.address;
+
+            const socials = [];
+            if (db.contact.social.instagram) socials.push(`<a href="${db.contact.social.instagram}" class="text-gray-400 hover:text-red-600 transition-colors"><i data-lucide="instagram" class="w-6 h-6"></i></a>`);
+            if (db.contact.social.facebook) socials.push(`<a href="${db.contact.social.facebook}" class="text-gray-400 hover:text-red-600 transition-colors"><i data-lucide="facebook" class="w-6 h-6"></i></a>`);
+
+            document.getElementById('footer-socials').innerHTML = socials.join('');
+            lucide.createIcons();
+        }
+
+        // --- Schedule Logic ---
+        function renderSchedule() {
+            const isRamadan = db.settings.ramadanMode;
+            document.getElementById('schedule-title-prefix').textContent = isRamadan ? 'RAMADAN' : 'WEEKLY';
+            // Logic handled by tabs and content renderers which read from db.schedule[mode]
+        }
+
+        function getActiveScheduleData() {
+            const mode = db.settings.ramadanMode ? 'ramadan' : 'normal';
+            return db.schedule[mode] || {};
+        }
+
+        function renderScheduleTabs() {
+            dayTabsContainer.innerHTML = '';
+            const daysOrder = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            const scheduleData = getActiveScheduleData();
+
+            daysOrder.forEach(day => {
+                if (!scheduleData[day]) return;
+
+                const btn = document.createElement('button');
+                btn.className = `px-4 md:px-6 py-2 text-xs md:text-sm font-bold uppercase tracking-wider skew-x-[-12deg] transition-all ${activeDay === day
+                    ? 'bg-red-600 text-white'
+                    : 'bg-neutral-800 text-gray-400 hover:bg-neutral-700'
+                    }`;
+                btn.innerHTML = `<span class="block skew-x-[12deg]">${day}</span>`;
+                btn.onclick = () => {
+                    activeDay = day;
+                    renderScheduleTabs();
+                    renderScheduleContent();
+                };
+                dayTabsContainer.appendChild(btn);
+            });
+        }
+
+        function renderScheduleContent() {
+            const scheduleData = getActiveScheduleData();
+            const classes = scheduleData[activeDay] || [];
+            scheduleContent.innerHTML = '';
+
+            const activeClasses = classes.filter(c => c.active !== false); // Filter out inactive
+
+            if (activeClasses.length === 0) {
+                noClassesMsg.classList.remove('hidden');
+                scheduleContent.classList.add('hidden');
+            } else {
+                noClassesMsg.classList.add('hidden');
+                scheduleContent.classList.remove('hidden');
+                activeClasses.forEach(slot => {
+                    const el = document.createElement('div');
+                    el.className = 'flex flex-col md:flex-row items-center justify-between bg-neutral-900 p-4 border-l-4 border-red-600 hover:bg-neutral-800 transition-colors';
+                    el.innerHTML = `
+                        <div class="flex items-center gap-4 mb-2 md:mb-0 w-full md:w-1/4">
+                            <i data-lucide="clock" class="text-red-500 w-5 h-5"></i>
+                            <span class="text-xl font-bold text-white">${slot.time}</span>
+                        </div>
+                        <div class="flex-grow text-center md:text-left mb-2 md:mb-0">
+                            <h4 class="text-lg font-bold text-white">${slot.class}</h4>
+                            <span class="text-xs text-gray-500 uppercase tracking-widest">${slot.level}</span>
+                        </div>
+                        <div class="text-right w-full md:w-1/4">
+                            <span class="text-sm text-gray-400">Coach: <span class="text-white">${slot.trainer}</span></span>
+                        </div>
+                    `;
+                    scheduleContent.appendChild(el);
+                });
+                lucide.createIcons();
+            }
+        }
+
+        // --- Sticky Navbar Logic ---
+        function handleScroll() {
+            if (window.scrollY > 50) {
+                navbar.classList.remove('bg-transparent', 'py-5');
+                navbar.classList.add('bg-neutral-950/95', 'backdrop-blur-sm', 'border-b', 'border-red-900/30', 'py-3');
+            } else {
+                navbar.classList.add('bg-transparent', 'py-5');
+                navbar.classList.remove('bg-neutral-950/95', 'backdrop-blur-sm', 'border-b', 'border-red-900/30', 'py-3');
+            }
+        }
+        window.addEventListener('scroll', handleScroll);
+
+        // --- Mobile Menu Logic ---
+        function toggleMobileMenu() {
+            isMobileMenuOpen = !isMobileMenuOpen;
+            if (isMobileMenuOpen) {
+                mobileMenu.classList.remove('translate-x-full');
+                menuIcon.setAttribute('data-lucide', 'x');
+            } else {
+                mobileMenu.classList.add('translate-x-full');
+                menuIcon.setAttribute('data-lucide', 'menu');
+            }
+            lucide.createIcons();
+        }
+
+        mobileMenuBtn.addEventListener('click', toggleMobileMenu);
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                if (isMobileMenuOpen) toggleMobileMenu();
+            });
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', init);
+
+    </script>
+</body>
+
+</html>

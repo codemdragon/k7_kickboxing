@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>K7 Admin | Control Center</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                fontFamily: { sans: ['Inter', 'sans-serif'] },
+                extend: { colors: { neutral: { 850: '#1f1f1f', 950: '#0a0a0a' } } }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <style>
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #dc2626;
+        }
+    </style>
+</head>
+
+<body class="bg-neutral-950 text-gray-200 font-sans min-h-screen flex flex-col">
+
+    <!-- Auth Component -->
+    <div id="auth-screen" class="fixed inset-0 z-50 bg-neutral-950 flex items-center justify-center p-4">
+        <div class="bg-neutral-900 border border-neutral-800 p-8 rounded-lg max-w-sm w-full text-center shadow-2xl">
+            <h1 class="text-3xl font-black italic text-white mb-2">K<span class="text-red-600">7</span> ADMIN</h1>
+            <p class="text-gray-500 text-sm mb-6">Enter access code to continue</p>
+            <form id="login-form" class="space-y-4">
+                <input type="password" id="admin-password" placeholder="Passcode"
+                    class="w-full bg-neutral-950 border border-neutral-800 p-3 rounded text-white focus:border-red-600 focus:outline-none transition-colors text-center tracking-widest"
+                    autofocus>
+                <button type="submit"
+                    class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded transition-colors uppercase tracking-wider text-sm">
+                    Unlock System
+                </button>
+            </form>
+            <p id="login-error" class="text-red-500 text-xs mt-4 hidden">Invalid Passcode</p>
+        </div>
+    </div>
+
+    <!-- Main Dashboard (Hidden by default) -->
+    <div id="dashboard-app" class="hidden flex-grow flex h-screen overflow-hidden">
+
+        <!-- Sidebar -->
+        <aside class="w-64 bg-neutral-900 border-r border-neutral-800 flex flex-col hidden md:flex">
+            <div class="p-6 border-b border-neutral-800 flex items-center justify-between">
+                <span class="text-2xl font-black italic text-white">K<span class="text-red-600">7</span></span>
+                <span class="text-xs font-mono text-gray-500">v1.0</span>
+            </div>
+
+            <nav class="flex-grow p-4 space-y-2 overflow-y-auto">
+                <button onclick="router('dashboard')"
+                    class="nav-item w-full flex items-center gap-3 px-4 py-3 text-sm font-medium rounded text-gray-400 hover:bg-neutral-800 hover:text-white transition-colors active"
+                    data-target="dashboard">
+                    <i data-lucide="layout-dashboard" class="w-5 h-5"></i> Dashboard
+                </button>
+                <div class="pt-4 pb-2 px-4 text-xs font-bold text-gray-600 uppercase tracking-wider">Content Systems
+                </div>
+                <button onclick="router('schedule')"
+                    class="nav-item w-full flex items-center gap-3 px-4 py-3 text-sm font-medium rounded text-gray-400 hover:bg-neutral-800 hover:text-white transition-colors"
+                    data-target="schedule">
+                    <i data-lucide="calendar" class="w-5 h-5"></i> Schedule
+                </button>
+                <button onclick="router('events')"
+                    class="nav-item w-full flex items-center gap-3 px-4 py-3 text-sm font-medium rounded text-gray-400 hover:bg-neutral-800 hover:text-white transition-colors"
+                    data-target="events">
+                    <i data-lucide="zap" class="w-5 h-5"></i> Events
+                </button>
+                <button onclick="router('programs')"
+                    class="nav-item w-full flex items-center gap-3 px-4 py-3 text-sm font-medium rounded text-gray-400 hover:bg-neutral-800 hover:text-white transition-colors"
+                    data-target="programs">
+                    <i data-lucide="dumbbell" class="w-5 h-5"></i> Programs
+                </button>
+                <button onclick="router('packages')"
+                    class="nav-item w-full flex items-center gap-3 px-4 py-3 text-sm font-medium rounded text-gray-400 hover:bg-neutral-800 hover:text-white transition-colors"
+                    data-target="packages">
+                    <i data-lucide="shopping-bag" class="w-5 h-5"></i> Packages
+                </button>
+                <div class="pt-4 pb-2 px-4 text-xs font-bold text-gray-600 uppercase tracking-wider">Site Settings</div>
+                <button onclick="router('announcements')"
+                    class="nav-item w-full flex items-center gap-3 px-4 py-3 text-sm font-medium rounded text-gray-400 hover:bg-neutral-800 hover:text-white transition-colors"
+                    data-target="announcements">
+                    <i data-lucide="megaphone" class="w-5 h-5"></i> Marketing
+                </button>
+                <button onclick="router('settings')"
+                    class="nav-item w-full flex items-center gap-3 px-4 py-3 text-sm font-medium rounded text-gray-400 hover:bg-neutral-800 hover:text-white transition-colors"
+                    data-target="settings">
+                    <i data-lucide="settings" class="w-5 h-5"></i> System
+                </button>
+            </nav>
+
+            <div class="p-4 border-t border-neutral-800">
+                <button onclick="saveChanges()" id="save-btn"
+                    class="w-full bg-neutral-800 hover:bg-white hover:text-neutral-950 text-white font-bold py-3 rounded transition-all flex items-center justify-center gap-2">
+                    <i data-lucide="save" class="w-4 h-4"></i> Save Changes
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="flex-grow bg-neutral-950 overflow-y-auto relative">
+
+            <!-- Top Header Mobile -->
+            <div
+                class="md:hidden flex items-center justify-between p-4 border-b border-neutral-800 bg-neutral-900 sticky top-0 z-30">
+                <span class="text-xl font-black italic text-white">K<span class="text-red-600">7</span></span>
+                <button id="mobile-menu-toggle" class="text-white"><i data-lucide="menu"></i></button>
+            </div>
+
+            <!-- Views Container -->
+            <div id="views-container" class="p-6 max-w-6xl mx-auto pb-32">
+
+                <!-- Dashboard View -->
+                <div id="view-dashboard" class="view-section animate-fade-in block">
+                    <h2 class="text-3xl font-bold text-white mb-6">Dashboard</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                        <div class="bg-neutral-900 border border-neutral-800 p-6 rounded-lg">
+                            <h3 class="text-gray-400 text-sm font-medium uppercase tracking-wider mb-2">System Status
+                            </h3>
+                            <div class="flex items-center gap-2 text-green-500 font-bold">
+                                <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span> Online
+                            </div>
+                        </div>
+                        <div class="bg-neutral-900 border border-neutral-800 p-6 rounded-lg">
+                            <h3 class="text-gray-400 text-sm font-medium uppercase tracking-wider mb-2">Ramadan Mode
+                            </h3>
+                            <div id="dash-ramadan-status" class="text-white font-bold">--</div>
+                        </div>
+                        <div class="bg-neutral-900 border border-neutral-800 p-6 rounded-lg">
+                            <h3 class="text-gray-400 text-sm font-medium uppercase tracking-wider mb-2">Last Updated
+                            </h3>
+                            <div id="dash-last-updated" class="text-white font-mono text-sm">--</div>
+                        </div>
+                    </div>
+
+                    <div class="bg-blue-900/20 border border-blue-900/50 p-6 rounded-lg mb-8">
+                        <h3 class="text-blue-400 font-bold mb-2 flex items-center gap-2"><i data-lucide="info"></i>
+                            Quick Tip</h3>
+                        <p class="text-gray-400 text-sm">Changes made here are not live until you click the <strong>Save
+                                Changes</strong> button in the sidebar. This will push updates to the live website data.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Schedule View -->
+                <div id="view-schedule" class="view-section hidden">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-3xl font-bold text-white">Schedule Manager</h2>
+                        <div class="flex items-center gap-3 bg-neutral-900 p-2 rounded-lg border border-neutral-800">
+                            <span class="text-xs font-bold uppercase text-gray-500">Ramadan Mode</span>
+                            <button id="ramadan-toggle-btn" onclick="toggleRamadanMode()"
+                                class="bg-gray-700 w-12 h-6 rounded-full relative transition-colors focus:outline-none">
+                                <div class="w-4 h-4 bg-white rounded-full absolute top-1 left-1 transition-transform">
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Mode Selector & Day Tabs -->
+                    <div class="bg-neutral-900 p-6 rounded-lg border border-neutral-800 mb-6">
+                        <div class="flex flex-wrap gap-2 mb-6 border-b border-neutral-800 pb-4"
+                            id="admin-schedule-days">
+                            <!-- Injected by JS -->
+                        </div>
+
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-xl font-bold text-white flex items-center gap-2">
+                                <span id="current-day-label">Monday</span> Classes
+                            </h3>
+                            <button onclick="openClassModal()"
+                                class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded text-sm font-bold flex items-center gap-2">
+                                <i data-lucide="plus" class="w-4 h-4"></i> Add Class
+                            </button>
+                        </div>
+
+                        <div id="admin-class-list" class="space-y-2">
+                            <!-- Class Items -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Events View -->
+                <div id="view-events" class="view-section hidden">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-3xl font-bold text-white">Events Manager</h2>
+                        <button onclick="openEventModal()"
+                            class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded text-sm font-bold flex items-center gap-2">
+                            <i data-lucide="plus" class="w-4 h-4"></i> New Event
+                        </button>
+                    </div>
+                    <div id="admin-events-list" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Events Injected JS -->
+                    </div>
+                </div>
+
+                <!-- Programs View -->
+                <div id="view-programs" class="view-section hidden">
+                    <h2 class="text-3xl font-bold text-white mb-6">Programs</h2>
+                    <div id="admin-programs-list" class="grid grid-cols-1 gap-4"></div>
+                </div>
+
+                <!-- Packages View -->
+                <div id="view-packages" class="view-section hidden">
+                    <h2 class="text-3xl font-bold text-white mb-6">Packages</h2>
+                    <div id="admin-packages-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+                </div>
+
+                <!-- Announcements View -->
+                <div id="view-announcements" class="view-section hidden">
+                    <h2 class="text-3xl font-bold text-white mb-6">Marketing & Announcements</h2>
+                    <div class="bg-neutral-900 border border-neutral-800 p-6 rounded-lg max-w-2xl">
+                        <div class="mb-4">
+                            <label class="flex items-center gap-2 text-white font-bold cursor-pointer">
+                                <input type="checkbox" id="ann-active" class="w-5 h-5 accent-red-600">
+                                Show Announcement Bar
+                            </label>
+                        </div>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Banner Text</label>
+                                <input type="text" id="ann-text"
+                                    class="w-full bg-black border border-neutral-700 p-2 rounded text-white focus:border-red-600 outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Link URL</label>
+                                <input type="text" id="ann-link"
+                                    class="w-full bg-black border border-neutral-700 p-2 rounded text-white focus:border-red-600 outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Background
+                                    Color</label>
+                                <input type="color" id="ann-color"
+                                    class="w-full h-10 bg-black border border-neutral-700 rounded cursor-pointer">
+                            </div>
+                            <button onclick="saveMarketing()"
+                                class="bg-white text-black font-bold px-6 py-2 rounded hover:bg-gray-200">Update
+                                Banner</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Settings View -->
+                <div id="view-settings" class="view-section hidden">
+                    <h2 class="text-3xl font-bold text-white mb-6">System Settings</h2>
+
+                    <div class="space-y-8">
+                        <!-- GitHub Config -->
+                        <div class="bg-neutral-900 border border-neutral-800 p-6 rounded-lg">
+                            <h3 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                                <i data-lucide="github" class="text-white"></i> GitHub Integration
+                            </h3>
+                            <p class="text-gray-400 text-sm mb-4">Required to save changes to the live website.</p>
+
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-xs font-bold text-gray-500 uppercase mb-1">GitHub
+                                        Username</label>
+                                    <input type="text" id="gh-username"
+                                        class="w-full bg-black border border-neutral-700 p-2 rounded text-white focus:border-red-600 outline-none"
+                                        placeholder="e.g. codemdragon">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Repository
+                                        Name</label>
+                                    <input type="text" id="gh-repo"
+                                        class="w-full bg-black border border-neutral-700 p-2 rounded text-white focus:border-red-600 outline-none"
+                                        placeholder="e.g. k7_kickboxing">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Personal Access
+                                        Token (Fine-grained)</label>
+                                    <input type="password" id="gh-token"
+                                        class="w-full bg-black border border-neutral-700 p-2 rounded text-white focus:border-red-600 outline-none"
+                                        placeholder="github_pat_...">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Admin Password -->
+                        <div class="bg-neutral-900 border border-neutral-800 p-6 rounded-lg">
+                            <h3 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                                <i data-lucide="lock" class="text-red-600"></i> Admin Access
+                            </h3>
+                            <div>
+                                <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Change Admin
+                                    Passcode</label>
+                                <input type="password" id="new-admin-pass"
+                                    class="w-full bg-black border border-neutral-700 p-2 rounded text-white focus:border-red-600 outline-none"
+                                    placeholder="Enter new passcode">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // --- Core Application Logic ---
+
+        let db = null;
+        const GITHUB_API_BASE = 'https://api.github.com/repos';
+
+        // --- Auth System ---
+        const authScreen = document.getElementById('auth-screen');
+        const dashboardApp = document.getElementById('dashboard-app');
+        const loginForm = document.getElementById('login-form');
+        const loginError = document.getElementById('login-error');
+
+        // Check local storage for session
+        if (sessionStorage.getItem('k7_admin_session')) {
+            showDashboard();
+        }
+
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const pass = document.getElementById('admin-password').value;
+
+            // Temporary hardcoded check until we load DB
+            // In a real flow, we might fetch DB first, but for now let's maintain simple flow
+            // We'll fetch DB to verify password
+            try {
+                if (!db) await loadDB();
+
+                // Default password is 'admin123' if not set in DB
+                const correctPass = db.settings.adminPassword || 'admin123';
+
+                if (pass === correctPass) {
+                    sessionStorage.setItem('k7_admin_session', 'true');
+                    showDashboard();
+                } else {
+                    loginError.classList.remove('hidden');
+                }
+            } catch (err) {
+                console.error("Auth Error", err);
+                alert("Could not connect to database.");
+            }
+        });
+
+        function showDashboard() {
+            authScreen.classList.add('hidden');
+            dashboardApp.classList.remove('hidden');
+            if (!db) loadDB();
+            lucide.createIcons();
+            loadSettingsToUI();
+        }
+
+        // --- Router ---
+        function router(viewName) {
+            // Update Sidebar
+            document.querySelectorAll('.nav-item').forEach(el => {
+                if (el.dataset.target === viewName) {
+                    el.classList.add('bg-neutral-800', 'text-white');
+                    el.classList.remove('text-gray-400');
+                } else {
+                    el.classList.remove('bg-neutral-800', 'text-white');
+                    el.classList.add('text-gray-400');
+                }
+            });
+
+            // Update Views
+            document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
+            const targetView = document.getElementById(`view-${viewName}`);
+            if (targetView) targetView.classList.remove('hidden');
+        }
+
+        // --- Data Layer ---
+        async function loadDB() {
+            try {
+                const res = await fetch('db.json');
+                db = await res.json();
+                updateDashboardStats();
+            } catch (error) {
+                console.error("Failed to load DB", error);
+            }
+        }
+
+        function updateDashboardStats() {
+            if (!db) return;
+            document.getElementById('dash-ramadan-status').textContent = db.settings.ramadanMode ? 'Active' : 'Inactive';
+            document.getElementById('dash-ramadan-status').className = db.settings.ramadanMode ? 'text-red-500 font-bold' : 'text-gray-500 font-bold';
+
+            // Last updated timestamp could be stored in DB settings
+            document.getElementById('dash-last-updated').textContent = new Date().toLocaleString();
+        }
+
+        function loadSettingsToUI() {
+            // Load GitHub config from localStorage
+            document.getElementById('gh-username').value = localStorage.getItem('gh_username') || '';
+            document.getElementById('gh-repo').value = localStorage.getItem('gh_repo') || '';
+            document.getElementById('gh-token').value = localStorage.getItem('gh_token') || '';
+        }
+
+        // --- Save System ---
+        async function saveChanges() {
+            const saveBtn = document.getElementById('save-btn');
+            const originalText = saveBtn.innerHTML;
+            saveBtn.innerHTML = `<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i> Saving...`;
+            saveBtn.disabled = true;
+
+            // 1. Save Settings to LocalStorage (Browser specific)
+            const ghUser = document.getElementById('gh-username').value;
+            const ghRepo = document.getElementById('gh-repo').value;
+            const ghToken = document.getElementById('gh-token').value;
+
+            localStorage.setItem('gh_username', ghUser);
+            localStorage.setItem('gh_repo', ghRepo);
+            localStorage.setItem('gh_token', ghToken);
+
+            // 2. Commit to GitHub
+            if (!ghUser || !ghRepo || !ghToken) {
+                alert("Please configure GitHub settings in the System tab to save changes.");
+                saveBtn.innerHTML = originalText;
+                saveBtn.disabled = false;
+                return;
+            }
+
+            try {
+                await pushToGitHub(ghUser, ghRepo, ghToken, db);
+                alert("Changes saved successfully!");
+            } catch (error) {
+                console.error(error);
+                alert("Failed to save changes: " + error.message);
+            }
+
+            saveBtn.innerHTML = originalText;
+            saveBtn.disabled = false;
+            lucide.createIcons();
+        }
+
+        async function pushToGitHub(user, repo, token, content) {
+            const path = 'db.json';
+            const url = `${GITHUB_API_BASE}/${user}/${repo}/contents/${path}`;
+
+            // 1. Get current SHA
+            const getRes = await fetch(url, { headers: { 'Authorization': `Bearer ${token}` } });
+            if (!getRes.ok) throw new Error("Could not fetch repo info. Check info.");
+            const getData = await getRes.json();
+            const sha = getData.sha;
+
+            // 2. Push update
+            // Convert content to Base64
+            const contentStr = JSON.stringify(content, null, 2);
+            const contentEncoded = btoa(unescape(encodeURIComponent(contentStr)));
+
+            const putRes = await fetch(url, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    message: `Admin Panel Update: ${new Date().toISOString()}`,
+                    content: contentEncoded,
+                    sha: sha
+                })
+            });
+
+            if (!putRes.ok) {
+                const err = await putRes.json();
+                throw new Error(err.message);
+            }
+        }
+
+        // Initialize icons
+        lucide.createIcons();
+
+        // --- Schedule Logic ---
+        let currentScheduleMode = 'normal'; // 'normal' or 'ramadan'
+        let currentDay = 'Monday';
+        const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+
+        function initScheduleEditor() {
+            renderDayTabs();
+            renderClassList();
+            updateRamadanToggleUI();
+        }
+
+        function toggleRamadanMode() {
+            db.settings.ramadanMode = !db.settings.ramadanMode;
+            updateRamadanToggleUI();
+            updateDashboardStats(); // Update dashboard
+        }
+
+        function updateRamadanToggleUI() {
+            const btn = document.getElementById('ramadan-toggle-btn');
+            const dot = btn.querySelector('div');
+            if (db.settings.ramadanMode) {
+                btn.classList.remove('bg-gray-700');
+                btn.classList.add('bg-red-600');
+                dot.style.transform = 'translateX(1.5rem)';
+            } else {
+                btn.classList.add('bg-gray-700');
+                btn.classList.remove('bg-red-600');
+                dot.style.transform = 'translateX(0)';
+            }
+        }
+
+        function renderDayTabs() {
+            const container = document.getElementById('admin-schedule-days');
+            container.innerHTML = daysOfWeek.map(day => `
+                <button onclick="switchDay('${day}')" class="px-4 py-2 rounded text-sm font-bold transition-colors ${currentDay === day ? 'bg-white text-black' : 'bg-neutral-800 text-gray-400 hover:text-white'}">
+                    ${day}
+                </button>
+            `).join('');
+            document.getElementById('current-day-label').textContent = currentDay;
+        }
+
+        function switchDay(day) {
+            currentDay = day;
+            renderDayTabs();
+            renderClassList();
+        }
+
+        function renderClassList() {
+            // Determine which schedule to show based on global toggle OR maybe we want to edit both?
+            // For simplicity, let's treat "Ramadan Mode" as just a switch for the frontend.
+            // But the admin needs to edit BOTH schedules.
+            // Let's add a sub-tab for "Normal" vs "Ramadan" schedule editing, OR just infer it.
+            // Actually, the user requirement said: "Ramadan Schedule Editor... Exactly like normal".
+            // So we need a selector for WHICH schedule we are editing currently.
+            // I'll add a dropdown or toggle above the days.
+
+            // Wait, I missed adding a "Schedule Type Selector" in the UI. 
+            // I'll default to editing "Normal" and add a switcher.
+            // For now, let's assume we edit "Normal" by default. 
+            // I will add a switcher in next step. For now let's just render 'normal'.
+
+            const list = db.schedule[currentScheduleMode][currentDay] || [];
+            const container = document.getElementById('admin-class-list');
+
+            if (list.length === 0) {
+                container.innerHTML = '<p class="text-gray-500 italic p-4 text-center">No classes scheduled.</p>';
+                return;
+            }
+
+            container.innerHTML = list.map((cls, idx) => `
+                <div class="bg-neutral-800 p-4 rounded flex justify-between items-center group">
+                    <div>
+                        <div class="font-bold text-white flex items-center gap-2">
+                            ${cls.time} - ${cls.class}
+                            ${!cls.active ? '<span class="text-xs bg-red-900 text-red-200 px-2 rounded">Inactive</span>' : ''}
+                        </div>
+                        <div class="text-xs text-gray-400">${cls.level} | ${cls.trainer}</div>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="deleteClass(${idx})" class="p-2 hover:bg-neutral-700 rounded text-red-500"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                    </div>
+                </div>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        function deleteClass(index) {
+            if (confirm('Delete this class?')) {
+                db.schedule[currentScheduleMode][currentDay].splice(index, 1);
+                renderClassList();
+            }
+        }
+
+        // --- Modal System (Simple Prompt for now, upgrade later) ---
+        function openClassModal() {
+            // Quick and dirty manual entry for v1
+            const time = prompt("Class Time (e.g. 06:00 PM)");
+            if (!time) return;
+            const name = prompt("Class Name (e.g. Boxing)");
+            const level = prompt("Level (e.g. All Levels)");
+            const trainer = prompt("Trainer Name");
+
+            if (time && name) {
+                if (!db.schedule[currentScheduleMode][currentDay]) db.schedule[currentScheduleMode][currentDay] = [];
+                db.schedule[currentScheduleMode][currentDay].push({
+                    time, class: name, level: level || '', trainer: trainer || 'Staff', active: true
+                });
+                renderClassList();
+            }
+        }
+
+        // --- Events Logic ---
+        function renderEvents() {
+            const container = document.getElementById('admin-events-list');
+            if (!db.events || db.events.length === 0) {
+                container.innerHTML = '<p class="col-span-2 text-center text-gray-500">No events found.</p>';
+                return;
+            }
+
+            container.innerHTML = db.events.map((evt, idx) => `
+                <div class="bg-neutral-900 border border-neutral-800 p-4 rounded relative">
+                    <div class="absolute top-2 right-2 flex gap-2">
+                         <button onclick="deleteEvent(${idx})" class="text-red-500 hover:text-red-400"><i data-lucide="trash" class="w-4 h-4"></i></button>
+                    </div>
+                    <h4 class="font-bold text-white">${evt.title}</h4>
+                    <p class="text-sm text-red-500">${evt.date} @ ${evt.startTime}</p>
+                    <p class="text-xs text-gray-400 mt-2">${evt.description}</p>
+                </div>
+             `).join('');
+            lucide.createIcons();
+        }
+
+        function openEventModal() {
+            const title = prompt("Event Title");
+            if (!title) return;
+            const date = prompt("Date (YYYY-MM-DD)");
+            const start = prompt("Start Time");
+
+            db.events.push({
+                id: Date.now().toString(),
+                title, date, startTime: start, description: "New Event", active: true
+            });
+            renderEvents();
+        }
+
+        function deleteEvent(idx) {
+            if (confirm("Delete event?")) {
+                db.events.splice(idx, 1);
+                renderEvents();
+            }
+        }
+
+        // Hook into showDashboard
+        const originalShowDashboard = showDashboard;
+
+
+        // --- Programs Logic ---
+        function renderPrograms() {
+            const container = document.getElementById('admin-programs-list');
+            container.innerHTML = db.programs.map((p, idx) => `
+                <div class="bg-neutral-800 p-4 rounded flex justify-between items-start gap-4">
+                    <img src="${p.image}" class="w-16 h-16 object-cover rounded" />
+                    <div class="flex-grow">
+                        <h4 class="font-bold text-white">${p.title}</h4>
+                        <p class="text-xs text-gray-400">${p.subtitle || ''}</p>
+                    </div>
+                    <button onclick="editProgram(${idx})" class="text-blue-400 hover:text-white"><i data-lucide="edit-2" class="w-4 h-4"></i></button>
+                </div>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        function editProgram(idx) {
+            const p = db.programs[idx];
+            // Simplified edit for now
+            const newTitle = prompt("Edit Title", p.title);
+            if (newTitle) {
+                p.title = newTitle;
+                p.subtitle = prompt("Subtitle", p.subtitle);
+                p.image = prompt("Image URL", p.image);
+                renderPrograms();
+            }
+        }
+
+        // --- Packages Logic ---
+        function renderPackages() {
+            const container = document.getElementById('admin-packages-list');
+            container.innerHTML = db.packages.map((p, idx) => `
+                <div class="bg-neutral-800 p-4 rounded flex justify-between items-center ${p.highlight ? 'border border-red-500' : ''}">
+                    <div>
+                        <h4 class="font-bold text-white">${p.title}</h4>
+                        <p class="text-xs text-gray-400">${p.subtitle}</p>
+                    </div>
+                    <button onclick="editPackage(${idx})" class="text-blue-400 hover:text-white"><i data-lucide="edit-2" class="w-4 h-4"></i></button>
+                </div>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        function editPackage(idx) {
+            const p = db.packages[idx];
+            const newTitle = prompt("Edit Title", p.title);
+            if (newTitle) {
+                p.title = newTitle;
+                p.subtitle = prompt("Subtitle", p.subtitle);
+                p.highlight = confirm("Highlight this package? (OK = Yes, Cancel = No)");
+                renderPackages();
+            }
+        }
+
+        // --- Marketing Logic ---
+        function loadMarketing() {
+            const ann = db.announcement || { text: '', link: '', isActive: false, backgroundColor: '#dc2626' };
+            document.getElementById('ann-text').value = ann.text;
+            document.getElementById('ann-link').value = ann.link;
+            document.getElementById('ann-color').value = ann.backgroundColor;
+            document.getElementById('ann-active').checked = ann.isActive;
+        }
+
+        function saveMarketing() {
+            db.announcement = {
+                text: document.getElementById('ann-text').value,
+                link: document.getElementById('ann-link').value,
+                backgroundColor: document.getElementById('ann-color').value,
+                isActive: document.getElementById('ann-active').checked
+            };
+            alert("Marketing settings updated locally. Remember to Save Changes globally.");
+        }
+
+        // Updated Hook
+        showDashboard = function () {
+            originalShowDashboard();
+            initScheduleEditor();
+            renderEvents();
+            renderPrograms();
+            renderPackages();
+            loadMarketing();
+        }
+
+    </script>
+
+
+</body>
+
+</html>
